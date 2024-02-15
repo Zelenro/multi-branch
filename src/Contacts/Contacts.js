@@ -1,10 +1,10 @@
-import React, { Component } from 'react';
+import React, { PureComponent } from 'react';
 import { nanoid } from 'nanoid';
 import Phonebook from './Phonebook/Phonebook';
 import Filter from './Filter/Filter';
 import ContactForm from './ContactForm/ContactForm';
 
-class Contacts extends Component {
+class Contacts extends PureComponent {
   state = {
     contacts: [],
     filter: '',

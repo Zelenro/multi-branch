@@ -13,7 +13,7 @@ const Phonebook = ({
   arrayFilterContact,
 }) => {
   const allContacts = contacts.length;
-  console.log(allContacts);
+  // console.log(allContacts);
   return (
     <ContactsList>
       <h3>My {allContacts} contacts</h3>
