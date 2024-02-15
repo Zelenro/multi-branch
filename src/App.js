@@ -1,5 +1,5 @@
 import './App.css';
-import { ImageFinder } from './ImageFinder/ImageFinder';
+import ImageFinder from './ImageFinder/ImageFinder';
 
 function App() {
   return (
