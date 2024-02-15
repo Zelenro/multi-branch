@@ -4,7 +4,7 @@ import Phonebook from './Phonebook/Phonebook';
 import Filter from './Filter/Filter';
 import ContactForm from './ContactForm/ContactForm';
 
-class Contacts extends PureComponent {
+class Contacts extends Component {
   state = {
     contacts: [],
     filter: '',
