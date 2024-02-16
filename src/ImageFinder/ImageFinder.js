@@ -6,7 +6,7 @@ import { ImageGallery } from './ImageGallery/ImageGallery';
 
 class ImageFinder extends Component {
   state = {
-    images: null,
+    images: '',
     // isLoading: false,
   };
 
