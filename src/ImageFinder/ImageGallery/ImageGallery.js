@@ -1,7 +1,7 @@
 import { ImageGalleryItem } from './ImageGalleryItem/ImageGalleryItem';
 
 export const ImageGallery = ({ images }) => {
-  //   console.log(images);
+  // console.log(images);
   return (
     <>
       <ul className="ImageGallery">
