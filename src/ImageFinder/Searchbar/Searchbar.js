@@ -1,10 +1,24 @@
 import { Field, Form, Formik } from 'formik';
+import { toast } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
 
 export const Searchbar = ({ onSubmit }) => {
   const handleSubmit = async (values, actions) => {
+    if (values.searchImages.trim() === '') {
+      toast('Enter search word', {
+        position: 'top-right',
+        autoClose: 5000,
+        hideProgressBar: false,
+        closeOnClick: true,
+        pauseOnHover: true,
+        draggable: true,
+        progress: undefined,
+        theme: 'light',
+      });
+      return;
+    }
     await onSubmit(values.searchImages);
     actions.setSubmitting(false);
-    // console.log(values);
     actions.resetForm();
   };
 
@@ -12,7 +26,6 @@ export const Searchbar = ({ onSubmit }) => {
     <header className="Searchbar">
       <Formik initialValues={{ searchImages: '' }} onSubmit={handleSubmit}>
         {props => {
-          // console.log(props);
           return (
             <Form className="SearchForm">
               <button

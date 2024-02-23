@@ -1,5 +1,4 @@
 export const ImageGalleryItem = ({ image }) => {
-  // console.log(image);
   return (
     <>
       <li className="ImageGalleryItem">

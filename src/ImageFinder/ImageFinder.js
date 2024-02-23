@@ -1,148 +1,107 @@
 import React, { Component } from 'react';
 import { Searchbar } from './Searchbar/Searchbar';
 import { ImageGallery } from './ImageGallery/ImageGallery';
-import { Button } from './Button/Button';
 import * as API from './Services/api';
 import { Circles } from 'react-loader-spinner';
+import { ToastContainer } from 'react-toastify';
 
 class ImageFinder extends Component {
   state = {
-    images: [],
+    images: null,
     isLoading: false,
     error: false,
-    page: '1',
-    perPage: '12',
-    searchImages: null,
-    imagesLoaded: false,
+    page: 1,
+    perPage: 12,
+    searchImages: '',
   };
 
   findImage = async value => {
+    const { page, perPage } = this.state;
     try {
-      this.setState({ isLoading: true });
-      this.setState({ searchImages: value });
-      const { searchImages } = this.state;
-      const arrayImg = await API.getImages(searchImages);
+      this.setState({ images: null, isLoading: true, searchImages: value });
+      const arrayImg = await API.getImages(value, page, perPage);
       this.setState({ images: arrayImg });
     } catch (error) {
-      this.setState({ error: true });
       console.log(error);
+      this.setState({ error: true });
     } finally {
-      this.setState({ isLoading: false, imagesLoaded: true });
+      this.setState({ isLoading: false });
+    }
+  };
+
+  handleLoadMore = async () => {
+    const { searchImages, page, perPage } = this.state;
+
+    this.setState({ page: parseInt(page) + 1 });
+    try {
+      const newImages = await API.getImages(searchImages, page + 1, perPage);
+      console.log(newImages);
+      this.setState(prevState => ({
+        images: [...prevState.images, ...newImages],
+      }));
+    } catch (error) {
+      console.log(error);
+      this.setState({ error: true });
     }
   };
 
   async componentDidMount() {
+    const { searchImages } = this.state;
     try {
-      await this.findImage();
+      if (searchImages !== '') {
+        await this.findImage(searchImages);
+      }
+      return;
     } catch (error) {
       this.setState({ error: true, isLoading: false });
       console.log(error);
     }
   }
 
-  componentDidUpdate(_, prevState) {
+  async componentDidUpdate(_, prevState) {
     if (this.state.searchImages !== prevState.searchImages) {
-      this.findImage(this.state.searchImages);
+      await this.findImage(this.state.searchImages);
     }
   }
 
   componentWillUnmount() {}
 
   render() {
-    const { images, isLoading, error, searchImages, imagesLoaded } = this.state;
+    const { images, isLoading, error, searchImages } = this.state;
     return (
       <>
-        {error && <p>Что пошло не так !!!</p>}
-        <Searchbar onSubmit={this.findImage} handleChange={this.handleChange} />
-        {isLoading || !imagesLoaded ? (
+        {error && <p>{error.message}</p>}
+        <Searchbar onSubmit={this.findImage} />
+        {isLoading ? (
           <Circles
-            height="80"
-            width="80"
+            height="280"
+            width="280"
             color="#3f51b5"
             ariaLabel="circles-loading"
-            wrapperStyle={{}}
+            wrapperStyle={{
+              display: 'flex',
+              justifyContent: 'center',
+              alignItems: 'center',
+              height: '100vh',
+            }}
             wrapperClass=""
             visible={true}
           />
+        ) : images === null ? (
+          <h1>No {searchImages} images</h1>
         ) : (
           <ImageGallery
             images={images}
             error={error}
             searchImages={searchImages}
+            onClick={this.handleLoadMore}
           />
         )}
 
-        <Button />
+        <ToastContainer />
       </>
     );
   }
 }
 
 export default ImageFinder;
-
-// handlerInput = e => {
-//   const { value } = e.currentTarget;
-//   this.setState({ searchImages: value });
-//   return value;
-// };
-
-// handlerInput = e => {
-//   const { name, value } = e.currentTarget;
-//   this.setState(prevState => ({
-//     ...prevState,
-//     [name]: value,
-//   }));
-//   return value;
-// };
-
-// handleChange = value => {
-//   // console.log(value);
-//   this.setState(prevState => ({
-//     ...prevState,
-//     // [name]: value,
-//   }));
-// };
-
-// const { searchImages, page, perPage } = this.state;
-// const images = await API.getImages(searchImages, page, perPage);
-// this.setState({ images: images });
-
-// const itemLocal = localStorage.getItem('images');
-// const imagesLocal = JSON.parse(itemLocal);
-// if (imagesLocal !== null) {
-//   this.setState({
-//     images: imagesLocal,
-//   });
-// }
-// const { searchImages, page, perPage } = this.state;
-// fetch(
-//   `${URL}?key=${KEY}&q=${searchImages}&page=${page}&per_page=${perPage}&image_type=photo&orientation=horizontal`
-// )
-//   .then(res => res.json())
-//   // .then(data => console.log(data.hits))
-//   .then(data => {
-//     console.log(data);
-//     const arrayImg = data.hits;
-//     this.setState({ images: arrayImg });
-//   })
-//   .catch(error => {
-//     console.error('Ошибка при получении данных:', error);
-//   });
-// axios
-//   .get(URL, {
-//     params: {
-//       q: searchImages,
-//       page: page,
-//       key: KEY,
-//       image_type: 'photo',
-//       orientation: 'horizontal',
-//       per_page: perPage,
-//     },
-//   })
-// .then(res => {
-//   const arrayImg = res.data.hits;
-//   this.setState({ images: arrayImg });
-// })
-//   .catch(error => {
-//     console.error('Ошибка при получении данных:', error);
-//   });

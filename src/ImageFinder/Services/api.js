@@ -1,20 +1,23 @@
 import { KEY, URL } from '../globalParams';
 
-export const page = '1';
-export const perPage = '12';
-
-export const getImages = async value => {
+export const getImages = async (value, page, perPage) => {
   const searchImages = value;
-  console.log(searchImages);
+
   try {
     const response = await fetch(
       `${URL}?key=${KEY}&q=${searchImages}&page=${page}&per_page=${perPage}&image_type=photo&orientation=horizontal`
     );
-    const data = await response.json();
-    // console.log(data.hits);
-    const arrayImg = data.hits;
-    return arrayImg;
+    if (await response.ok) {
+      const data = await response.json();
+      const arrayImg = data.hits;
+      if (arrayImg.length === 0) {
+        return null;
+      }
+      return arrayImg;
+    }
+    return Promise.reject(new Error(`No found image ${searchImages} in fetch`));
   } catch (error) {
     console.error('Ошибка при получении данных:', error);
+    return error;
   }
 };
