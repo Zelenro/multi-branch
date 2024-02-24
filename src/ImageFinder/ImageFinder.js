@@ -2,8 +2,8 @@ import React, { Component } from 'react';
 import { Searchbar } from './Searchbar/Searchbar';
 import { ImageGallery } from './ImageGallery/ImageGallery';
 import * as API from './Services/api';
-import { Circles } from 'react-loader-spinner';
 import { ToastContainer } from 'react-toastify';
+import { Loader } from './Loader/Loader';
 
 class ImageFinder extends Component {
   state = {
@@ -11,7 +11,7 @@ class ImageFinder extends Component {
     isLoading: false,
     error: false,
     page: 1,
-    perPage: 12,
+    perPage: 3,
     searchImages: '',
   };
 
@@ -35,7 +35,7 @@ class ImageFinder extends Component {
     this.setState({ page: parseInt(page) + 1 });
     try {
       const newImages = await API.getImages(searchImages, page + 1, perPage);
-      console.log(newImages);
+      // console.log(newImages);
       this.setState(prevState => ({
         images: [...prevState.images, ...newImages],
       }));
@@ -73,20 +73,7 @@ class ImageFinder extends Component {
         {error && <p>{error.message}</p>}
         <Searchbar onSubmit={this.findImage} />
         {isLoading ? (
-          <Circles
-            height="280"
-            width="280"
-            color="#3f51b5"
-            ariaLabel="circles-loading"
-            wrapperStyle={{
-              display: 'flex',
-              justifyContent: 'center',
-              alignItems: 'center',
-              height: '100vh',
-            }}
-            wrapperClass=""
-            visible={true}
-          />
+          <Loader />
         ) : images === null ? (
           <h1>No {searchImages} images</h1>
         ) : (
@@ -97,7 +84,6 @@ class ImageFinder extends Component {
             onClick={this.handleLoadMore}
           />
         )}
-
         <ToastContainer />
       </>
     );
