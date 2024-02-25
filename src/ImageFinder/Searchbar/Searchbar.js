@@ -1,6 +1,7 @@
 import { Field, Form, Formik } from 'formik';
 import { toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
+import { RiFindReplaceLine } from 'react-icons/ri';
 
 export const Searchbar = ({ onSubmit }) => {
   const handleSubmit = async (values, actions) => {
@@ -33,7 +34,11 @@ export const Searchbar = ({ onSubmit }) => {
                 className="SearchForm-button"
                 disabled={props.isSubmitting}
               >
-                <span className="button-label">Search</span>
+                <span className="button-label">
+                  <RiFindReplaceLine
+                    style={{ color: '#3f51b5', fontSize: '2em' }}
+                  />
+                </span>
               </button>
 
               <Field

@@ -1,5 +1,8 @@
 import { Component } from 'react';
 import { Modal } from '../../Modal/Modal';
+// import { createPortal } from 'react-dom';
+import '../../../index.css';
+import '../../../App.css';
 
 export class ImageGalleryItem extends Component {
   state = {
@@ -8,14 +11,26 @@ export class ImageGalleryItem extends Component {
 
   openModal = () => {
     this.setState({ isModalOpen: true });
+    console.log(this.state);
+    // Modal.instance.show();
   };
+
   closeModal = () => {
     this.setState({ isModalOpen: false });
+    console.log(this.state);
+    // Modal.instance.close();
+  };
+
+  onClickOn = () => {
+    console.log(this.state);
+    this.setState(prevState => ({
+      isModalOpen: !prevState.isModalOpen,
+    }));
   };
 
   render() {
     const { image } = this.props;
-    // console.log(image);
+
     return (
       <>
         <li className="ImageGalleryItem">
@@ -27,11 +42,7 @@ export class ImageGalleryItem extends Component {
           />
         </li>
         {this.state.isModalOpen && (
-          <Modal
-            image={image}
-            closeModal={this.closeModal}
-            state={this.state.isModalOpen}
-          />
+          <Modal image={image} state={this.state.isModalOpen} />
         )}
       </>
     );

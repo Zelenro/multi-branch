@@ -4,6 +4,8 @@ import { ImageGallery } from './ImageGallery/ImageGallery';
 import * as API from './Services/api';
 import { ToastContainer } from 'react-toastify';
 import { Loader } from './Loader/Loader';
+import '../index.css';
+import '../App.css';
 
 class ImageFinder extends Component {
   state = {
@@ -12,7 +14,7 @@ class ImageFinder extends Component {
     error: false,
     page: 1,
     perPage: 3,
-    searchImages: '',
+    searchImages: 'cat',
   };
 
   findImage = async value => {
