@@ -13,8 +13,8 @@ class ImageFinder extends Component {
     isLoading: false,
     error: false,
     page: 1,
-    perPage: 3,
-    searchImages: 'cat',
+    perPage: 12,
+    searchImages: '',
   };
 
   findImage = async value => {

@@ -1,8 +1,6 @@
 import { Component } from 'react';
 import { Modal } from '../../Modal/Modal';
 // import { createPortal } from 'react-dom';
-import '../../../index.css';
-import '../../../App.css';
 
 export class ImageGalleryItem extends Component {
   state = {
@@ -11,14 +9,12 @@ export class ImageGalleryItem extends Component {
 
   openModal = () => {
     this.setState({ isModalOpen: true });
-    console.log(this.state);
-    // Modal.instance.show();
+    // console.log(this.state);
   };
 
   closeModal = () => {
     this.setState({ isModalOpen: false });
     console.log(this.state);
-    // Modal.instance.close();
   };
 
   onClickOn = () => {

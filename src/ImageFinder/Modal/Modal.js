@@ -20,6 +20,21 @@ export const Modal = ({ image, state }) => {
   </div>
     `,
     {
+      // onShow: instance => {
+      //   const modalElement = instance.element();
+      //   const handleKeyDown = event => {
+      //     if (event.keyCode === 'Escape') {
+      //       instance.close();
+      //     }
+      //   };
+      //   console.log(handleKeyDown);
+      //   modalElement.addEventListener('keydown', handleKeyDown);
+      //   instance.element().querySelector('#pop').onclick = () => {
+      //     modalElement.removeEventListener('keydown', handleKeyDown);
+      //     instance.close();
+      //   };
+      // },
+
       onShow: instance => {
         instance.element().querySelector('#pop').onclick = instance.close;
       },
