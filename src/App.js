@@ -1,12 +1,10 @@
 import './App.css';
-import { Hooks } from './Hooks/Hooks';
-// import ImageFinder from './ImageFinder/ImageFinder';
-// import Contacts from './Contacts/Contacts';
+import { ContactsHooks } from './ContactsHooks/ContactsHooks';
 
 function App() {
   return (
     <div className="App">
-      <Hooks />
+      <ContactsHooks />
     </div>
   );
 }
