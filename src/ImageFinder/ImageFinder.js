@@ -13,8 +13,8 @@ class ImageFinder extends Component {
     isLoading: false,
     error: false,
     page: 1,
-    perPage: 12,
-    searchImages: '',
+    perPage: 3,
+    searchImages: 'cat',
   };
 
   findImage = async value => {
@@ -37,7 +37,6 @@ class ImageFinder extends Component {
     this.setState({ page: parseInt(page) + 1 });
     try {
       const newImages = await API.getImages(searchImages, page + 1, perPage);
-      // console.log(newImages);
       this.setState(prevState => ({
         images: [...prevState.images, ...newImages],
       }));
@@ -77,7 +76,7 @@ class ImageFinder extends Component {
         {isLoading ? (
           <Loader />
         ) : images === null ? (
-          <h1>No {searchImages} images</h1>
+          <h1>No found image {searchImages} in fetch </h1>
         ) : (
           <ImageGallery
             images={images}

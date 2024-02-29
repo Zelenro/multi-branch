@@ -2,6 +2,7 @@ import { Field, Form, Formik } from 'formik';
 import { toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 import { RiFindReplaceLine } from 'react-icons/ri';
+import '../../App.css';
 
 export const Searchbar = ({ onSubmit }) => {
   const handleSubmit = async (values, actions) => {

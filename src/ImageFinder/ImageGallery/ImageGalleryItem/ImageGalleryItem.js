@@ -1,6 +1,5 @@
 import { Component } from 'react';
 import { Modal } from '../../Modal/Modal';
-// import { createPortal } from 'react-dom';
 
 export class ImageGalleryItem extends Component {
   state = {
@@ -9,16 +8,13 @@ export class ImageGalleryItem extends Component {
 
   openModal = () => {
     this.setState({ isModalOpen: true });
-    // console.log(this.state);
   };
 
   closeModal = () => {
     this.setState({ isModalOpen: false });
-    console.log(this.state);
   };
 
   onClickOn = () => {
-    console.log(this.state);
     this.setState(prevState => ({
       isModalOpen: !prevState.isModalOpen,
     }));

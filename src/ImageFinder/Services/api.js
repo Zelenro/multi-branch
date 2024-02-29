@@ -17,7 +17,7 @@ export const getImages = async (value, page, perPage) => {
     }
     return Promise.reject(new Error(`No found image ${searchImages} in fetch`));
   } catch (error) {
-    console.error('Ошибка при получении данных:', error);
+    console.error('Error massage:', error);
     return error;
   }
 };
