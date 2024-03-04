@@ -1,6 +1,6 @@
 import * as basicLightbox from 'basiclightbox';
 
-export const Modal = ({ image, state }) => {
+export const Modal = ({ image }) => {
   const largeImageURL = image.largeImageURL;
   const tagsImage = image.tags;
 

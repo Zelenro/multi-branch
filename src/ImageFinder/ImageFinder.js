@@ -1,4 +1,4 @@
-import React, { Component } from 'react';
+import React, { useEffect, useState } from 'react';
 import { Searchbar } from './Searchbar/Searchbar';
 import { ImageGallery } from './ImageGallery/ImageGallery';
 import * as API from './Services/api';
@@ -7,88 +7,68 @@ import { Loader } from './Loader/Loader';
 import '../index.css';
 import '../App.css';
 
-class ImageFinder extends Component {
-  state = {
-    images: null,
-    isLoading: false,
-    error: false,
-    page: 1,
-    perPage: 3,
-    searchImages: 'cat',
+const ImageFinder = () => {
+  const [isLoading, setIsLoading] = useState(false);
+  const [error, setError] = useState(false);
+  const [images, setImages] = useState(null);
+  const [page, setPage] = useState(1);
+  const [perPage, setPerPage] = useState(3);
+  const [searchImages, setSearchImages] = useState('');
+  const [isInitialLoad, setIsInitialLoad] = useState(true);
+
+  const handleLoadMore = () => {
+    setPage(prevPage => prevPage + 1);
   };
 
-  findImage = async value => {
-    const { page, perPage } = this.state;
-    try {
-      this.setState({ images: null, isLoading: true, searchImages: value });
-      const arrayImg = await API.getImages(value, page, perPage);
-      this.setState({ images: arrayImg });
-    } catch (error) {
-      console.log(error);
-      this.setState({ error: true });
-    } finally {
-      this.setState({ isLoading: false });
-    }
+  const findImage = searchImages => {
+    setSearchImages(searchImages);
   };
 
-  handleLoadMore = async () => {
-    const { searchImages, page, perPage } = this.state;
-
-    this.setState({ page: parseInt(page) + 1 });
-    try {
-      const newImages = await API.getImages(searchImages, page + 1, perPage);
-      this.setState(prevState => ({
-        images: [...prevState.images, ...newImages],
-      }));
-    } catch (error) {
-      console.log(error);
-      this.setState({ error: true });
-    }
-  };
-
-  async componentDidMount() {
-    const { searchImages } = this.state;
-    try {
-      if (searchImages !== '') {
-        await this.findImage(searchImages);
-      }
+  useEffect(() => {
+    if (isInitialLoad) {
+      setIsInitialLoad(false);
+      setPerPage(12);
       return;
-    } catch (error) {
-      this.setState({ error: true, isLoading: false });
-      console.log(error);
     }
-  }
+    const fetchData = async () => {
+      try {
+        setIsLoading(true);
+        const arrayImg = await API.getImages(searchImages, page, perPage);
+        console.log(arrayImg);
+        setImages(prevImages => {
+          return images === null ? [...arrayImg] : [...prevImages, ...arrayImg];
+        });
+      } catch (error) {
+        console.log(error);
+        setError(true);
+      } finally {
+        setIsLoading(false);
+      }
+    };
 
-  async componentDidUpdate(_, prevState) {
-    if (this.state.searchImages !== prevState.searchImages) {
-      await this.findImage(this.state.searchImages);
-    }
-  }
+    fetchData();
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [page, searchImages]);
 
-  componentWillUnmount() {}
-
-  render() {
-    const { images, isLoading, error, searchImages } = this.state;
-    return (
-      <>
-        {error && <p>{error.message}</p>}
-        <Searchbar onSubmit={this.findImage} />
-        {isLoading ? (
-          <Loader />
-        ) : images === null ? (
-          <h1>No found image {searchImages} in fetch </h1>
-        ) : (
-          <ImageGallery
-            images={images}
-            error={error}
-            searchImages={searchImages}
-            onClick={this.handleLoadMore}
-          />
-        )}
-        <ToastContainer />
-      </>
-    );
-  }
-}
+  return (
+    <>
+      {error && <p>{error.message}</p>}
+      <Searchbar onSubmit={findImage} />
+      {isLoading ? (
+        <Loader />
+      ) : images === null ? (
+        <h1>No found image {searchImages} in fetch </h1>
+      ) : (
+        <ImageGallery
+          images={images}
+          error={error}
+          searchImages={searchImages}
+          onClick={handleLoadMore}
+        />
+      )}
+      <ToastContainer />
+    </>
+  );
+};
 
 export default ImageFinder;
