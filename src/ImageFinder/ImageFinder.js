@@ -35,9 +35,15 @@ const ImageFinder = () => {
         setIsLoading(true);
         const arrayImg = await API.getImages(searchImages, page, perPage);
         console.log(arrayImg);
-        setImages(prevImages => {
-          return images === null ? [...arrayImg] : [...prevImages, ...arrayImg];
-        });
+        if (arrayImg === null) {
+          setImages(null);
+          return;
+        }
+        if (images === null) {
+          setImages([...arrayImg]);
+          return;
+        }
+        setImages(prevImages => [...prevImages, ...arrayImg]);
       } catch (error) {
         console.log(error);
         setError(true);
