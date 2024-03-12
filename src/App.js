@@ -1,10 +1,10 @@
 import './App.css';
-import ImageFinder from './ImageFinder/ImageFinder';
+import MoviesApp from './components/App/MoviesApp';
 
 function App() {
   return (
     <div className="App">
-      <ImageFinder />
+      <MoviesApp />
     </div>
   );
 }
