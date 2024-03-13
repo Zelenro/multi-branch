@@ -7,7 +7,7 @@ import Cast from '../Cast/Cast';
 import Reviews from '../Reviews/Reviews';
 import MovieDetails from '../../pages/MovieDetails/MovieDetails';
 import { useState } from 'react';
-import trendingMovies from './api';
+import { trendingMovies } from './api';
 import { useEffect } from 'react';
 
 const MoviesApp = () => {
@@ -18,7 +18,6 @@ const MoviesApp = () => {
       try {
         const data = await trendingMovies();
         setTrendMovies(data);
-        // console.log(data);
       } catch (error) {
         console.log(error);
       }
@@ -36,10 +35,11 @@ const MoviesApp = () => {
 
       <Routes>
         <Route path="/" element={<Home trendMovies={trendMovies} />} />
-        <Route path="/movies" element={<Movies />} />
-        <Route path="/movies/:movieId" element={<MovieDetails />}>
-          <Route path="cast" element={<Cast />} />
-          <Route path="reviews" element={<Reviews />} />
+        <Route path="/movies" element={<Movies />}>
+          <Route path="/movies/:movieId" element={<MovieDetails />}>
+            <Route path="cast" element={<Cast />} />
+            <Route path="reviews" element={<Reviews />} />
+          </Route>
         </Route>
         <Route path="*" element={<NotFound />} />
       </Routes>

@@ -1,18 +1,68 @@
-/trending/get-trending список найпопулярніших фільмів на сьогодні для створення колекції на головній сторінці.
-/search/search-movies пошук фільму за ключовим словом на сторінці фільмів.
-/movies/get-movie-details запит повної інформації про фільм для сторінки кінофільму.
-/movies/get-movie-credits запит інформації про акторський склад для сторінки кінофільму.
-/movies/get-movie-reviews запит оглядів для сторінки кінофільму.
+ <Formik
+          initialValues={initialValues}
+          validationSchema={validationSchema}
+          onSubmit={handlerSubmit}
+        >
+          <Form autoComplete="off">
+            <FormLabel htmlFor="name">
+              Name
+              <FormInput
+                type="text"
+                id="name"
+                name="name"
+                placeholder="Name"
+                required
+              />
+              <FormError name="name" />
+            </FormLabel>
+            <FormLabel htmlFor="number">
+              Number
+              <FormInput
+                type="text"
+                id="number"
+                name="number"
+                placeholder="Number"
+                required
+              />
+              <FormError name="number" />
+            </FormLabel>
+            <FormButton type="submit">Add contact</FormButton>
+          </Form>
+        </Formik>
 
-Маршрути
-У застосунку повинні бути такі маршрути. Якщо користувач зайшов за неіснуючим маршрутом, його необхідно перенаправляти на домашню сторінку.
+ <>
+   <h1>Movies</h1> 
+   <form onSubmit={console.log('Search' {id})}> 
+   <input type="text" value={id} /> 
+   <button type="submit">Search</button> 
+   </form> 
+   <NavLink to={`/movies/${movieId}`}>Link</NavLink> 
+   <MovieDetails /> 
+   <Cast /> 
+   <Reviews /> 
+   <Outlet /> 
+   </> 
 
-'/' – компонент Home, домашня сторінка зі списком популярних кінофільмів.
-'/movies' – компонент Movies, сторінка пошуку кінофільмів за ключовим словом.
-'/movies/:movieId' – компонент MovieDetails, сторінка з детальною інформацією про кінофільм.
+ <>
+            <Formik
+        initialValues={initialValues}
+        validationSchema={validationSchema}
+        // onSubmit={}
+      >
+        <Form autoComplete="off">
+          <label htmlFor="search films">
+            Search films
+            <input
+              type="text"
+              id="name"
+              name="name"
+              placeholder="Name"
+              required
+            />
+            {/* <FormError name="name" /> */}
+          </label>
 
-/movies/:movieId/cast – компонент Cast, інформація про акторський склад. Рендериться на сторінці MovieDetails.
-/movies/:movieId/reviews – компонент Reviews, інформація про огляди. Рендериться на сторінці MovieDetails.
-
-Code Splitting (поділ коду)
-Додай асинхронне завантаження JS-коду для маршрутів застосунку, використовуючи React.lazy() і Suspense.
+          <button type="submit">Search</button>
+        </Form>
+      </Formik>
+    </>

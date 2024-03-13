@@ -1,25 +1,47 @@
+import { NavLink, Outlet, useParams } from 'react-router-dom';
+import { allAboutMovie } from '../../components/App/api';
+import { useEffect, useState } from 'react';
 // import Cast from '../../components/Cast/Cast';
 // import Reviews from '../../components/Reviews/Reviews';
 
-import { Link, Outlet } from 'react-router-dom';
-
 const MovieDetails = () => {
+  const { movieId } = useParams();
+  const [movie, setMovie] = useState(null);
+
+  useEffect(() => {
+    const detailsMovie = async () => {
+      try {
+        const data = await allAboutMovie(movieId);
+        setMovie(data);
+      } catch (error) {
+        console.log(error);
+      }
+    };
+    detailsMovie();
+  }, [movieId]);
+
   return (
     <>
-      <h1>MovieDetails</h1>
+      {movie && (
+        <>
+          <h1>{movie.title}</h1>
+          <p>{movie.overview}</p>
+          <img
+            src={`https://image.tmdb.org/t/p/w500/${movie.poster_path}`}
+            alt={movie.title}
+          />
+        </>
+      )}
 
       <ul>
         <li>
-          <Link to="cast">Cast</Link>
+          <NavLink to="cast">Cast</NavLink>
         </li>
         <li>
-          <Link to="reviews">Reviews</Link>
+          <NavLink to="reviews">Reviews</NavLink>
         </li>
       </ul>
       <Outlet />
-
-      {/* <Cast /> */}
-      {/* <Reviews /> */}
     </>
   );
 };
