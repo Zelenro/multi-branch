@@ -1,12 +1,12 @@
 import { NavLink, Outlet, useParams } from 'react-router-dom';
 import { allAboutMovie } from '../../components/App/api';
 import { useEffect, useState } from 'react';
-// import Cast from '../../components/Cast/Cast';
-// import Reviews from '../../components/Reviews/Reviews';
 
 const MovieDetails = () => {
   const { movieId } = useParams();
   const [movie, setMovie] = useState(null);
+  // console.log(movie);
+  // console.log(movieId);
 
   useEffect(() => {
     const detailsMovie = async () => {
@@ -26,13 +26,21 @@ const MovieDetails = () => {
         <>
           <h1>{movie.title}</h1>
           <p>{movie.overview}</p>
+          <ul>
+            {movie.genres.map(genre => (
+              <li key={genre.id}>
+                <h6>{genre.name}</h6>
+              </li>
+            ))}
+          </ul>
+
           <img
             src={`https://image.tmdb.org/t/p/w500/${movie.poster_path}`}
             alt={movie.title}
           />
         </>
       )}
-
+      <h4>Additional information</h4>
       <ul>
         <li>
           <NavLink to="cast">Cast</NavLink>

@@ -1,4 +1,4 @@
-import { NavLink } from 'react-router-dom';
+import ListFilms from '../../components/ListFilms';
 
 const Home = ({ trendMovies }) => {
   console.log(trendMovies);
@@ -6,14 +6,7 @@ const Home = ({ trendMovies }) => {
   return (
     <>
       <h1>Home</h1>
-      <ul className="ImageGallery">
-        {trendMovies &&
-          trendMovies.map(movie => (
-            <li key={movie.id}>
-              <NavLink to={`/movies/${movie.id}`}>{movie.title}</NavLink>
-            </li>
-          ))}
-      </ul>
+      <ListFilms listMovies={trendMovies} />
     </>
   );
 };

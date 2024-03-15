@@ -43,18 +43,53 @@ const allAboutMovie = async id => {
   }
 };
 
-const searchForMovies = async id => {
+const searchForMovies = async query => {
   try {
     const response = await fetch(
-      `https://api.themoviedb.org/3/search/movie?include_adult=false&language=en-US&page=1`,
+      `https://api.themoviedb.org/3/search/movie?query=${query}&include_adult=false&language=en-US&page=1`,
       options
     );
     if (!response.ok) {
       throw new Error('Failed to fetch trending movies');
     }
     const data = await response.json();
-    const detailsMovie = data;
-    // console.log(data);
+    const detailsMovie = data.results;
+    console.log(detailsMovie);
+    return detailsMovie;
+  } catch (error) {
+    console.error(error);
+  }
+};
+
+const getMovieCredits = async movieId => {
+  try {
+    const response = await fetch(
+      `https://api.themoviedb.org/3/movie/${movieId}/credits?language=en-US`,
+      options
+    );
+    if (!response.ok) {
+      throw new Error('Failed to fetch trending movies');
+    }
+    const data = await response.json();
+    const detailsMovie = data.cast;
+    // console.log(detailsMovie);
+    return detailsMovie;
+  } catch (error) {
+    console.error(error);
+  }
+};
+const getMovieReviews = async id => {
+  try {
+    const response = await fetch(
+      `https://api.themoviedb.org/3/movie/${id}/reviews?language=en-US&page=1`,
+      options
+    );
+    if (!response.ok) {
+      throw new Error('Failed to fetch trending movies');
+    }
+    const data = await response.json();
+    const detailsMovie = data.results;
+    // console.log(detailsMovie);
     return detailsMovie;
   } catch (error) {
     console.error(error);
@@ -64,3 +99,5 @@ const searchForMovies = async id => {
 export { trendingMovies };
 export { allAboutMovie };
 export { searchForMovies };
+export { getMovieCredits };
+export { getMovieReviews };

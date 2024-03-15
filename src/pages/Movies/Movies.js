@@ -1,56 +1,64 @@
-import {
-  Form,
-  NavLink,
-  Outlet,
-  useParams,
-  useSearchParams,
-} from 'react-router-dom';
+import { Outlet, useSearchParams } from 'react-router-dom';
 import { searchForMovies } from '../../components/App/api';
-// import MovieDetails from '../MovieDetails/MovieDetails';
-// import { Formik } from 'formik';
-// import { initialValues, validationSchema } from './MoviesSearchSchema';
-// import Cast from '../../components/Cast/Cast';
-// import Reviews from '../../components/Reviews/Reviews';
+import { useState } from 'react';
+import GalleryFilms from '../../components/GalleryFilms';
 
 const Movies = () => {
-  const { movieId } = useParams();
-  // const [params, setParams] = useSearchParams();
-  // const id = params.get(':movieId');
-  // console.log(movieId);
-  // console.log(useParams());
+  const [movies, setMovies] = useState(null);
+  const [params, setParams] = useSearchParams();
+  const query = params.get('query');
+
+  // console.log(useSearchParams);
+
+  const searchMovies = async e => {
+    // e.preventDefault();
+    try {
+      const data = await searchForMovies(query);
+      console.log(data);
+      setMovies(data);
+      return data;
+    } catch (error) {
+      console.log(error);
+    }
+  };
 
   // useEffect(() => {
-  //   const getTrendMovies = async () => {
+  //   const searchMovies = async () => {
   //     try {
-  //       const data = await trendingMovies();
-  //       setTrendMovies(data);
+  //       const data = await searchForMovies(desiredMovie);
+  //       console.log(data);
   //     } catch (error) {
   //       console.log(error);
   //     }
   //   };
-  //   getTrendMovies();
-  // }, []);
-
-  const searchMovies = async () => {
-    const data = await searchForMovies();
-    console.log(data);
-  };
+  //   searchMovies();
+  // }, [desiredMovie]);
 
   return (
     <>
       <h1>Movies</h1>
-      <form
+      {/* <form
         onSubmit={() => {
           searchMovies();
         }}
+      > */}
+      <input
+        type="text"
+        onChange={event => setParams({ query: event.target.value })}
+        value={query || ''}
+        required
+      />
+      <button
+        onClick={() => {
+          searchMovies();
+        }}
       >
-        <input type="text" required />
-        <button type="submit">Search</button>
-      </form>
-      {/* <NavLink to={`/movies/${movieId}`}>Link</NavLink> */}
-      {/* <MovieDetails /> */}
-      {/* <Cast /> */}
-      {/* <Reviews /> */}
+        Search
+      </button>
+      {/* </form> */}
+
+      {movies && <GalleryFilms movies={movies} />}
+
       <Outlet />
     </>
   );
