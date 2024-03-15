@@ -5,14 +5,12 @@ import { getMovieReviews } from '../App/api';
 const Reviews = () => {
   const { movieId } = useParams();
   const [reviews, setReviews] = useState(null);
-  console.log(reviews);
 
   useEffect(() => {
     const getData = async () => {
       try {
         const data = await getMovieReviews(movieId);
         setReviews(data);
-        console.log(data);
       } catch (error) {
         console.log(error);
       }
@@ -23,7 +21,6 @@ const Reviews = () => {
 
   return (
     <>
-      {/* <h1>Reviews</h1> */}
       {reviews && (
         <ul>
           {reviews.map(el => (

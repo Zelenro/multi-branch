@@ -5,13 +5,11 @@ import { useEffect, useState } from 'react';
 const Cast = () => {
   const { movieId } = useParams();
   const [credits, setCredits] = useState(null);
-  // console.log(credits);
 
   useEffect(() => {
     const detailsMovie = async () => {
       try {
         const data = await getMovieCredits(movieId);
-        // console.log(data);
         setCredits(data);
       } catch (error) {
         console.log(error);

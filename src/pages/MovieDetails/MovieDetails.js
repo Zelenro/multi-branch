@@ -1,12 +1,10 @@
-import { NavLink, Outlet, useParams } from 'react-router-dom';
+import { NavLink, Outlet, useLocation, useParams } from 'react-router-dom';
 import { allAboutMovie } from '../../components/App/api';
 import { useEffect, useState } from 'react';
 
 const MovieDetails = () => {
   const { movieId } = useParams();
   const [movie, setMovie] = useState(null);
-  // console.log(movie);
-  // console.log(movieId);
 
   useEffect(() => {
     const detailsMovie = async () => {
@@ -20,10 +18,17 @@ const MovieDetails = () => {
     detailsMovie();
   }, [movieId]);
 
+  const location = useLocation();
+  // console.log(location);
+  console.log(location.state);
+  console.log(movieId);
+  console.log(state);
+  // console.log('first', location.state?.from);
   return (
     <>
       {movie && (
         <>
+          <NavLink to={location.state?.from ?? '/'}>Go back</NavLink>
           <h1>{movie.title}</h1>
           <p>{movie.overview}</p>
           <ul>
@@ -33,7 +38,6 @@ const MovieDetails = () => {
               </li>
             ))}
           </ul>
-
           <img
             src={`https://image.tmdb.org/t/p/w500/${movie.poster_path}`}
             alt={movie.title}

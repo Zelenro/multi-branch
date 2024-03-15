@@ -27,7 +27,6 @@ const MoviesApp = () => {
 
   return (
     <>
-      <h1>Movies APP </h1>
       <nav>
         <StyledLink to="/">Home</StyledLink>
         <StyledLink to="/movies">Movies</StyledLink>

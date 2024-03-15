@@ -18,7 +18,6 @@ const trendingMovies = async () => {
     }
     const data = await response.json();
     const arrayTrendMovies = data.results;
-    // console.log(arrayTrendMovies);
     return arrayTrendMovies;
   } catch (error) {
     console.error(error);
@@ -36,7 +35,6 @@ const allAboutMovie = async id => {
     }
     const data = await response.json();
     const detailsMovie = data;
-    // console.log(data);
     return detailsMovie;
   } catch (error) {
     console.error(error);
@@ -54,7 +52,6 @@ const searchForMovies = async query => {
     }
     const data = await response.json();
     const detailsMovie = data.results;
-    console.log(detailsMovie);
     return detailsMovie;
   } catch (error) {
     console.error(error);
@@ -72,7 +69,6 @@ const getMovieCredits = async movieId => {
     }
     const data = await response.json();
     const detailsMovie = data.cast;
-    // console.log(detailsMovie);
     return detailsMovie;
   } catch (error) {
     console.error(error);
@@ -89,7 +85,7 @@ const getMovieReviews = async id => {
     }
     const data = await response.json();
     const detailsMovie = data.results;
-    // console.log(detailsMovie);
+
     return detailsMovie;
   } catch (error) {
     console.error(error);

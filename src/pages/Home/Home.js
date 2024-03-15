@@ -1,8 +1,6 @@
 import ListFilms from '../../components/ListFilms';
 
 const Home = ({ trendMovies }) => {
-  console.log(trendMovies);
-
   return (
     <>
       <h1>Home</h1>
