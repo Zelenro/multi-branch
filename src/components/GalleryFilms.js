@@ -2,7 +2,7 @@ import { NavLink, useLocation } from 'react-router-dom';
 
 const GalleryFilms = ({ movies, query }) => {
   const location = useLocation();
-  console.log(query);
+
   return (
     <>
       <ul className="ImageGallery">
