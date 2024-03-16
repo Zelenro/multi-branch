@@ -1,6 +1,6 @@
 import { Outlet, useSearchParams } from 'react-router-dom';
+import { Suspense, useEffect, useState } from 'react';
 import { searchForMovies } from '../../components/App/api';
-import { useEffect, useState } from 'react';
 import GalleryFilms from '../../components/GalleryFilms';
 
 const Movies = () => {
@@ -40,11 +40,6 @@ const Movies = () => {
   return (
     <>
       <h1>Movies</h1>
-      {/* <form
-        onSubmit={() => {
-          searchMovies();
-        }}
-      > */}
       <input type="text" onChange={updateQueryString} value={query} required />
       <button
         onClick={() => {
@@ -53,11 +48,11 @@ const Movies = () => {
       >
         Search
       </button>
-      {/* </form> */}
 
       {movies && <GalleryFilms movies={movies} query={query} />}
-
-      <Outlet />
+      <Suspense fallback={<div>Loding MOVIES...</div>}>
+        <Outlet />
+      </Suspense>
     </>
   );
 };

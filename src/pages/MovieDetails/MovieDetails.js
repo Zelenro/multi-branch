@@ -1,7 +1,7 @@
 import { NavLink, Outlet, useLocation, useParams } from 'react-router-dom';
-import { allAboutMovie } from '../../components/App/api';
 import { useEffect, useState } from 'react';
-import { useRef } from 'react';
+// import { useRef } from 'react';
+import { allAboutMovie } from '../../components/App/api';
 
 const MovieDetails = () => {
   const { movieId } = useParams();
@@ -20,13 +20,24 @@ const MovieDetails = () => {
   }, [movieId]);
 
   const location = useLocation();
-  const holdState = useRef(location.state);
+  // const backLinkLocationRef = useRef(location.state?.from ?? '/');
+  // useRef ^
 
   return (
     <>
       {movie && (
         <>
-          <NavLink to={holdState.current.from}>Go back</NavLink>
+          <NavLink
+            to={
+              location && location.state && location.state.from
+                ? location.state.from
+                : '/'
+            }
+          >
+            Go back
+          </NavLink>
+          {/* <NavLink to={backLinkLocationRef.current}>Go back</NavLink> */}
+          {/* useRef ^ */}
           <h1>{movie.title}</h1>
           <p>{movie.overview}</p>
           <ul>
@@ -45,10 +56,18 @@ const MovieDetails = () => {
       <h4>Additional information</h4>
       <ul>
         <li>
-          <NavLink to="cast">Cast</NavLink>
+          <NavLink to="cast" state={{ from: location.state?.from ?? '/' }}>
+            {/* <NavLink to="cast" state={{ from: location.state }}> */}
+            {/* useRef ^ */}
+            Cast
+          </NavLink>
         </li>
         <li>
-          <NavLink to="reviews">Reviews</NavLink>
+          <NavLink to="reviews" state={{ from: location.state?.from ?? '/' }}>
+            {/* <NavLink to="reviews" state={{ from: location.state }}> */}
+            {/* useRef ^ */}
+            Reviews
+          </NavLink>
         </li>
       </ul>
       <Outlet />

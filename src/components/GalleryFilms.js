@@ -8,12 +8,11 @@ const GalleryFilms = ({ movies, query }) => {
       <ul className="ImageGallery">
         {movies.map(movie => (
           <li key={movie.id}>
-            <h1>{movie.title}</h1>
+            {/* <h1>{movie.title}</h1> */}
             <NavLink
               to={`/movies/${movie.id}`}
               state={{ from: location, query }}
             >
-              {/* <NavLink to={{ pathname: `/movies/${movie.id}`, state: { from: location, query } }}> */}
               {movie.title}
             </NavLink>
             <p>{movie.overview}</p>
