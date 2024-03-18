@@ -1,35 +1,18 @@
 import { Route, Routes } from 'react-router-dom';
-import { useState, useEffect, lazy, Suspense } from 'react';
-import { trendingMovies } from './api';
+import { lazy, Suspense } from 'react';
 import { StyledLink } from './MoviesApp.styled';
 import NotFound from '../../pages/NotFound/NotFound';
-// import Home from '../../pages/Home/Home';
-// import Movies from '../../pages/Movies/Movies';
-import Cast from '../Cast/Cast';
-import Reviews from '../Reviews/Reviews';
-import MovieDetails from '../../pages/MovieDetails/MovieDetails';
+import Loading from '../Loader/Loader';
 
 const Home = lazy(() => import('../../pages/Home/Home'));
 const Movies = lazy(() => import('../../pages/Movies/Movies'));
-// const MovieDetails = lazy(() => import('../../pages/Home/Home'));
-// const Cast = lazy(() => import('../../pages/Home/Home'));
-// const Reviews = lazy(() => import('../../pages/Home/Home'));
+const MovieDetails = lazy(() =>
+  import('../../pages/MovieDetails/MovieDetails')
+);
+const Cast = lazy(() => import('../../components/Cast/Cast'));
+const Reviews = lazy(() => import('../../components/Reviews/Reviews'));
 
 const MoviesApp = () => {
-  const [trendMovies, setTrendMovies] = useState(null);
-
-  useEffect(() => {
-    const getTrendMovies = async () => {
-      try {
-        const data = await trendingMovies();
-        setTrendMovies(data);
-      } catch (error) {
-        console.log(error);
-      }
-    };
-    getTrendMovies();
-  }, []);
-
   return (
     <>
       <nav>
@@ -37,9 +20,9 @@ const MoviesApp = () => {
         <StyledLink to="/movies">Movies</StyledLink>
       </nav>
 
-      <Suspense fallback={<div>LODING HOME...</div>}>
+      <Suspense fallback={<Loading />}>
         <Routes>
-          <Route path="/" element={<Home trendMovies={trendMovies} />} />
+          <Route path="/" element={<Home />} />
           <Route path="/movies" element={<Movies />} />
           <Route path="/movies/:movieId" element={<MovieDetails />}>
             <Route path="cast" element={<Cast />} />

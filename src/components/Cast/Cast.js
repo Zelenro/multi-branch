@@ -1,17 +1,26 @@
 import { useParams } from 'react-router-dom';
 import { getMovieCredits } from '../App/api';
 import { useEffect, useState } from 'react';
+import Loading from '../Loader/Loader';
+import { ErrorMessage } from 'formik';
 
 const Cast = () => {
   const { movieId } = useParams();
   const [credits, setCredits] = useState(null);
 
+  const [error, setError] = useState(false);
+  const [loading, setLoading] = useState(false);
+
   useEffect(() => {
     const detailsMovie = async () => {
       try {
+        setLoading(true);
         const data = await getMovieCredits(movieId);
         setCredits(data);
+        setLoading(false);
       } catch (error) {
+        setLoading(false);
+        setError(true);
         console.log(error);
       }
     };
@@ -21,6 +30,8 @@ const Cast = () => {
   return (
     <>
       <h1>Cast</h1>
+      {loading && <Loading />}
+      {error && <ErrorMessage />}
       {credits && (
         <ul>
           {credits.map(credit => (

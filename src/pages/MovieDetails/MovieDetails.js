@@ -1,18 +1,25 @@
 import { NavLink, Outlet, useLocation, useParams } from 'react-router-dom';
-import { useEffect, useState } from 'react';
+import { Suspense, useEffect, useState } from 'react';
 // import { useRef } from 'react';
 import { allAboutMovie } from '../../components/App/api';
+import Loading from '../../components/Loader/Loader';
 
 const MovieDetails = () => {
   const { movieId } = useParams();
   const [movie, setMovie] = useState(null);
 
+  const [error, setError] = useState(false);
+  const [loading, setLoading] = useState(false);
+
   useEffect(() => {
     const detailsMovie = async () => {
       try {
+        setLoading(true);
         const data = await allAboutMovie(movieId);
         setMovie(data);
+        setLoading(false);
       } catch (error) {
+        setError(true);
         console.log(error);
       }
     };
@@ -25,7 +32,7 @@ const MovieDetails = () => {
 
   return (
     <>
-      {movie && (
+      {!error && !loading && movie && (
         <>
           <NavLink
             to={
@@ -50,6 +57,7 @@ const MovieDetails = () => {
           <img
             src={`https://image.tmdb.org/t/p/w500/${movie.poster_path}`}
             alt={movie.title}
+            width={200}
           />
         </>
       )}
@@ -70,7 +78,9 @@ const MovieDetails = () => {
           </NavLink>
         </li>
       </ul>
-      <Outlet />
+      <Suspense fallback={<Loading />}>
+        <Outlet />
+      </Suspense>
     </>
   );
 };

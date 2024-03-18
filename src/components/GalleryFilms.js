@@ -1,3 +1,4 @@
+import { nanoid } from 'nanoid';
 import { NavLink, useLocation } from 'react-router-dom';
 
 const GalleryFilms = ({ movies, query }) => {
@@ -7,7 +8,7 @@ const GalleryFilms = ({ movies, query }) => {
     <>
       <ul className="ImageGallery">
         {movies.map(movie => (
-          <li key={movie.id}>
+          <li key={nanoid()}>
             {/* <h1>{movie.title}</h1> */}
             <NavLink
               to={`/movies/${movie.id}`}
